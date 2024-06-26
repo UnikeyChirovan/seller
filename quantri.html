@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Quản trị Cáo's Store</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/popup.css" />
+    <style>
+      .btn {
+        cursor: pointer;
+      }
+      .highcharts-credits {
+        visibility: hidden;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 bg-info text-white text-center">
+          <h1>Hệ thống Quản trị - Cáo's Store</h1>
+        </div>
+      </div>
+    </div>
+    <div class="container pt-2">
+      <div class="row">
+        <div class="col-12 text-right">
+          <h5 class="text-info">
+            Chào:
+            <script>
+              if (sessionStorage.getItem("USER") == undefined) {
+                window.location = `.`;
+              } else {
+                var user = JSON.parse(sessionStorage.getItem("USER"));
+                document.write(`${user.Ho_ten} - ${user.Nhom.Ten}`);
+              }
+            </script>
+            <small
+              ><a
+                href="javaScript:void(0)"
+                class="text-danger"
+                onclick="sessionStorage.removeItem('USER');window.location=`.`"
+                >Thoát Đăng nhập</a
+              ></small
+            >
+          </h5>
+        </div>
+      </div>
+    </div>
+    <div class="container" id="tagAdmin">
+      <!-- <div class="row pt-lg-5 text-center">
+        <div class="col-3 p-2" onclick="window.location='./mobile/'">
+          <div class="btn btn-danger">
+            <img
+              src="images/mobile.png"
+              alt=""
+              class="img-fluid img-thumbnail"
+            />
+            <h5 class="text-white">Mobile</h5>
+          </div>
+        </div>
+        <div class="col-3 p-2">
+          <div class="btn btn-warning" onclick="window.location='./tivi/'">
+            <img src="images/tivi.png" alt="" class="img-fluid img-thumbnail" />
+            <h5 class="text-white">Tivi</h5>
+          </div>
+        </div>
+        <div class="col-3 p-2" onclick="window.location='./food/'">
+          <div class="btn btn-primary">
+            <img src="images/food.png" alt="" class="img-fluid img-thumbnail" />
+            <h5 class="text-white">Food</h5>
+          </div>
+        </div>
+        <div class="col-3 p-2" onclick="window.location='./user/'">
+          <div class="btn btn-success">
+            <img src="images/user.png" alt="" class="img-fluid img-thumbnail" />
+            <h5 class="text-white">User</h5>
+          </div>
+        </div>
+      </div> -->
+    </div>
+    <!-- Biểu đồ -->
+    <div class="container-fluid mt-5">
+      <div class="row text-center">
+        <div class="col-12 col-md-4 col-xl-4">
+          <div id="Th_Bieu_do_Mobile" class="card"></div>
+        </div>
+        <div class="col-12 col-md-4 col-xl-4">
+          <div id="Th_Bieu_do_Tivi" class="card"></div>
+        </div>
+        <div class="col-12 col-md-4 col-xl-4">
+          <div id="Th_Bieu_do_Food" class="card"></div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid mt-5 fixed-bottom bg-dark p-2 text-white">
+      <div class="row">
+        <div class="col-12 text-center">
+          &COPY; Copyright Lập trình viên javaScript
+        </div>
+      </div>
+    </div>
+    <div id="chatbox">
+      <div id="chatboxHeader" onclick="toggleChatbox()">Chat</div>
+      <div id="nameInputArea">
+        <input type="text" id="nameInput" placeholder="Enter your name" />
+        <button onclick="startChat()">Start Chat</button>
+      </div>
+      <div id="messages"></div>
+      <div id="inputArea">
+        <input
+          type="text"
+          id="messageInput"
+          placeholder="Type your message here"
+        />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+    <div id="toggleChat" onclick="toggleChatbox()">
+      <img
+        src="https://res.cloudinary.com/dhklbfocj/image/upload/v1719228947/images/chat.jpg"
+        class="img-fluid chatpopup"
+        alt=""
+      />
+    </div>
+    <div id="minimizeChat" onclick="minimizeChatbox()">-</div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./code/highcharts.js"></script>
+    <script src="./code/modules/accessibility.js"></script>
+    <script src="./code/modules/exporting.js"></script>
+    <script src="./js/api.js"></script>
+    <script src="./js/report.js"></script>
+    <script src="./js/admin.js"></script>
+    <script src="./js/popup.js"></script>
+    <script>
+      apiTivi().then((result) => {
+        dsTivi = result;
+        taoHangSXTivi();
+        dsHangSXTivi.forEach((x) => {
+          chuDeTivi.push(x.Ten);
+          let tongSoSanpham = dsTivi.filter(
+            (tv) => tv.Nhom.Ma_so == x.Ma_so
+          ).length;
+          dataTivi[0].data.push(tongSoSanpham);
+        });
+        cuaHang.Ten = `Cáo's Store`;
+        taoBaocaoTivi();
+      });
+
+      apiDienthoai().then((result) => {
+        dsMobile = result;
+        taoHangSXMobile();
+        dsHangSXMobile.forEach((x) => {
+          chuDeMobile.push(x.Ten);
+          let tongSoSanpham = dsMobile.filter(
+            (tv) => tv.Nhom.Ma_so == x.Ma_so
+          ).length;
+          dataMobile[0].data.push(tongSoSanpham);
+        });
+        cuaHang.Ten = `Cáo's Store`;
+        taoBaocaoMobile();
+      });
+      apiFood().then((result) => {
+        dsFood = result;
+        taoHangSXFood();
+        dsHangSXFood.forEach((x) => {
+          chuDeFood.push(x.Ten);
+          let tongSoSanpham = dsFood.filter(
+            (tv) => tv.Nhom.Ma_so == x.Ma_so
+          ).length;
+          dataFood[0].data.push(tongSoSanpham);
+        });
+        cuaHang.Ten = `Cáo's Store`;
+        taoBaocaoFood();
+      });
+    </script>
+  </body>
+</html>
