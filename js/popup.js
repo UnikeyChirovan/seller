@@ -20,7 +20,10 @@ function startChat() {
 }
 
 function connectWebSocket() {
-  socket = new WebSocket(`ws://localhost:8080?role=seller&name=${userName}`);
+  // socket = new WebSocket(`ws://localhost:8080?role=seller&name=${userName}`);
+  socket = new WebSocket(
+    `ws://https://hephucvu-71af3553bec0.herokuapp.com?role=seller&name=${userName}`
+  );
 
   socket.onopen = () => {
     console.log("Connected to the WebSocket server as seller");
